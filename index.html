@@ -1,0 +1,93 @@
+<html>
+
+<head>
+    <title>JSE calculator</title>
+    <link rel="shortcut icon" href="pictures/logo.png" />
+    <!--Import Google Icon Font-->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <!--Import materialize.css-->
+    <link type="text/css" rel="stylesheet" href="css/materialize.min.css" media="screen,projection" />
+
+    <!--Let browser know website is optimized for mobile-->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <style>
+        body {
+            margin-top: 50px;
+        }
+    </style>
+    
+
+</head>
+
+<body onload="test()" align="center">
+    <h2>JSE coin calculator (self mining)</h2>
+    <img src="pictures/logo.png"><br><br><br>
+
+    <div style="margin: 0 auto; width: 300px; height: 235px;">
+
+        <div class="row" align="center" style="margin-left:0px;">
+            <div class="input-field col s12">
+                <input type="number" id="numActiveMiners" type="text" class="validate" value="0">
+                <label for="numActiveMiners" class="active">
+                    <h6 id="demo2">Number of active miners</h6>
+                </label>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="input-field col s12">
+                <input type="number" id="hours" type="text" class="validate">
+                <label for="hours">Hours of mining</label>
+            </div>
+        </div>
+
+        <a onclick="myFunction()" class="waves-effect waves-light btn">calculate</a>
+    </div>
+    <p id="demo"></p>
+
+
+    <script>
+        function myFunction() {
+            var x = document.getElementById("numActiveMiners").value;
+            var y = document.getElementById("hours").value;
+            var calculation = (50 / x) * 2 * 60 * y;
+            document.getElementById("demo").innerHTML = "On average you will earn: " + calculation + " JSE";
+            document.getElementById('demo2').innerHTML = "Number of active miners. Current (" + selfMiners + ")";
+
+        }
+
+    </script>
+
+    <!-- getting number of miners from jse site-->
+    <script>
+        function test() {
+            var xmlHttp = new XMLHttpRequest();
+            xmlHttp.onreadystatechange = function () {
+                if (this.readyState == 4 && this.status == 200) {
+                    const stats = JSON.parse(this.responseText);
+                    const clients = stats.clients;
+                    let selfMiners = 0;
+
+                    for (var key in clients) {
+                        const client = clients[key];
+                        if (client.selfMinersCount) {
+                            selfMiners += client.selfMinersCount;
+                        }
+                    }
+                    document.getElementById("numActiveMiners").value = selfMiners;
+                    document.getElementById("activeM").innerHTML = selfMiners;
+                }
+            }
+            xmlHttp.open("GET", "https://server.jsecoin.com/stats/", true);
+            xmlHttp.send(null);
+
+        }
+
+    </script>
+
+    <!--Import jQuery before materialize.js-->
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script type="text/javascript" src="js/materialize.min.js"></script>
+</body>
+
+</html>

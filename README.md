@@ -1,0 +1,1 @@
+JSE self-mining earnings approximation by [tilko](https://github.com/tilenpirih)
